@@ -176,7 +176,31 @@ up echo nameserver 192.168.122.1 > /etc/resolv.conf
 
 ### Zeke (Client)
 
+```
+auto eth0
+iface  eth0 inet static
+  address 10.77.1.4
+  netmask 255.255.255.0
+  gateway 10.77.1.0
+
+up echo nameserver 10.77.4.2 > /etc/resolv.conf
+up echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+```
+
 ### Erwin (Client)
+
+```
+auto eth0
+iface  eth0 inet static
+  address 10.77.2.4
+  netmask 255.255.255.0
+  gateway 10.77.2.0
+
+up echo nameserver 10.77.4.2 > /etc/resolv.conf
+up echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+```
 
 ## Bash Install
 
