@@ -184,7 +184,7 @@ iface  eth0 inet static
   gateway 10.77.1.0
 
 up echo nameserver 10.77.4.2 > /etc/resolv.conf
-up echo nameserver 192.168.122.1 > /etc/resolv.conf
+up echo nameserver 192.168.122.1 >> /etc/resolv.conf
 
 ```
 
@@ -198,7 +198,7 @@ iface  eth0 inet static
   gateway 10.77.2.0
 
 up echo nameserver 10.77.4.2 > /etc/resolv.conf
-up echo nameserver 192.168.122.1 > /etc/resolv.conf
+up echo nameserver 192.168.122.1 >> /etc/resolv.conf
 
 ```
 
