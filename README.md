@@ -177,3 +177,49 @@ up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ### Zeke (Client)
 
 ### Erwin (Client)
+
+## Bash Install
+
+- Paradis (DHCP Relay)
+
+```
+apt-get update
+apt-get install isc-dhcp-relay -y
+```
+
+- Tybur (DHCP Server)
+
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install isc-dhcp-server -y
+dhcpd --version
+
+echo INTERFACES="eth0" > /etc/default/isc-dhcp-serverm
+```
+
+- Fritz (DNS Server)
+
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install bind9 -y
+```
+
+- Warhammer (Database)
+
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+apt-get update
+apt-get install mariadb-server -y
+service mysql start
+```
+
+- Beast (LoadBalancer Laravel)
+
+- Colossal (LoadBalancer PHP)
+
+- Annie , Bertholdt, Reiner (Laravel Worker)
+
+- Armin, Eren, Mikasa (PHP Worker)
