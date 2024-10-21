@@ -13,7 +13,7 @@
 
 ## Config
 
-### Paradis (DHCP Relay)
+- Paradis (DHCP Relay)
 
 ```
 auto eth0
@@ -42,7 +42,7 @@ iface eth4 inet static
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 10.77.0.0/16
 ```
 
-### Tybur (DHCP Server)
+- Tybur (DHCP Server)
 
 ```
 auto eth0
@@ -54,7 +54,7 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Fritz (DNS Server)
+- Fritz (DNS Server)
 
 ```
 auto eth0
@@ -66,7 +66,7 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Warhammer (Database)
+- Warhammer (Database)
 
 ```
 auto eth0
@@ -78,7 +78,7 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Beast ( LoadBalancer Laravel)
+- Beast ( LoadBalancer Laravel)
 
 ```
 auto eth0
@@ -90,7 +90,7 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Colossal (LoadBalancer PHP)
+- Colossal (LoadBalancer PHP)
 
 ```
 auto eth0
@@ -102,7 +102,7 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Annie (Laravel Worker)
+- Annie (Laravel Worker)
 
 ```
 auto eth0
@@ -114,7 +114,7 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Bertholdt (Laravel Worker)
+- Bertholdt (Laravel Worker)
 
 ```
 auto eth0
@@ -126,7 +126,7 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Reiner (Laravel Worker)
+- Reiner (Laravel Worker)
 
 ```
 auto eth0
@@ -138,7 +138,7 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Armin (PHP Worker)
+- Armin (PHP Worker)
 
 ```
 auto eth0
@@ -150,7 +150,7 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Eren (PHP Worker)
+- Eren (PHP Worker)
 
 ```
 auto eth0
@@ -162,7 +162,7 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Mikasa (PHP Worker)
+- Mikasa (PHP Worker)
 
 ```
 auto eth0
@@ -174,9 +174,9 @@ iface  eth0 inet static
 up echo nameserver 192.168.122.1 > /etc/resolv.conf
 ```
 
-### Zeke (Client)
+- Zeke (Client)
 
-### Erwin (Client)
+- Erwin (Client)
 
 ## Bash Install
 
