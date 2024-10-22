@@ -279,7 +279,7 @@ $TTL    604800
                         604800 )        ; Negative Cache TTL
 ;
 @               IN      NS      marley.it27.com.
-@               IN      A       10.77.1.1 ; IP Leto Laravel Workerr' > /etc/bind/jarkom/marley.it27.com
+@               IN      A       10.77.1.1 ; IP Annie Laravel Workerr' > /etc/bind/jarkom/marley.it27.com
 
 echo ';
 ; BIND data file for local loopback interface
@@ -293,7 +293,7 @@ $TTL    604800
                         604800 )        ; Negative Cache TTL
 ;
 @               IN      NS      eldia.it27.com.
-@               IN      A       10.77.2.1 ; IP Vladimir PHP Worker' > /etc/bind/jarkom/eldia.it27.com
+@               IN      A       10.77.2.1 ; IP Armin PHP Worker' > /etc/bind/jarkom/eldia.it27.com
 
 echo 'options {
         directory "/var/cache/bind";
