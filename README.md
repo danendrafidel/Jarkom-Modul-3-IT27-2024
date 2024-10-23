@@ -9,9 +9,9 @@
 
 ## Daftar Isi
 
-- [Topologi](#topologi)
+- [Topologi](#Topologi)
 
-- [Soal 1](#SOAL1)
+- [Soal 1](#Soal-1)
 
 - [Soal 2](#Soal-2)
 
