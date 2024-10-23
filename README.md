@@ -7,6 +7,50 @@
 | 1   | Danendra Fidel Khansa | 5027231063 |
 | 2   | Farida Qurrotu A'yuna | 5027231015 |
 
+## Daftar Isi
+
+- [Topologi](#topologi)
+
+- [Soal 1](#SOAL1)
+
+- [Soal 2](#Soal-2)
+
+- [Soal 3](#Soal-3)
+
+- [Soal 4](#Soal-4)
+
+- [Soal 5](#Soal-5)
+
+- [Soal 6](#Soal-6)
+
+- [Soal 7](#Soal-7)
+
+- [Soal 8](#Soal-8)
+
+- [Soal 9](#Soal-9)
+
+- [Soal 10](#Soal-10)
+
+- [Soal 11](#Soal-11)
+
+- [Soal 12](#Soal-12)
+
+- [Soal 13](#Soal-13)
+
+- [Soal 14](#Soal-14)
+
+- [Soal 15](#Soal-15)
+
+- [Soal 16](#Soal-16)
+
+- [Soal 17](#Soal-17)
+
+- [Soal 18](#Soal-18)
+
+- [Soal 19](#Soal-19)
+
+- [Soal 20](#Soal-20)
+
 ## Topologi Kelompok IT27 Praktikum Modul 3
 
 ![Topologi](img/Topologi.png)
