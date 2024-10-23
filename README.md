@@ -9,8 +9,6 @@
 
 ## Daftar Isi
 
-- [Topologi Kelompok IT27 Praktikum Modul 3](#Topologi)
-
 - [Soal 1](#Soal-1)
 
 - [Soal 2](#Soal-2)
