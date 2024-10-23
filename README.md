@@ -244,7 +244,7 @@ service mysql start
 
 ## SOAL 1
 
-Pulau Paradis telah menjadi tempat yang damai selama 1000 tahun, namun kedamaian tersebut tidak bertahan selamanya. Perang antara kaum Marley dan Eldia telah mencapai puncak. Kaum Marley yang dipimpin oleh Zeke, me-register domain name marley.yyy.com untuk worker Laravel mengarah pada Annie. Namun ternyata tidak hanya kaum Marley saja yang berinisiasi, kaum Eldia ternyata sudah mendaftarkan domain name eldia.yyy.com untuk worker PHP (0) mengarah pada Armin.
+Pulau Paradis telah menjadi tempat yang damai selama 1000 tahun, namun kedamaian tersebut tidak bertahan selamanya. Perang antara kaum Marley dan Eldia telah mencapai puncak. Kaum Marley yang dipimpin oleh Zeke, me-register domain name **marley.yyy.com** untuk worker Laravel mengarah pada **Annie**. Namun ternyata tidak hanya kaum Marley saja yang berinisiasi, kaum Eldia ternyata sudah mendaftarkan domain name **eldia.yyy.com** untuk worker PHP (0) mengarah pada **Armin**.
 
 - Buat script pada DNS Server Fritz dengan nama `1.sh`
 
@@ -314,9 +314,9 @@ service bind9 restart
 
 ## SOAL 2
 
-Semua Client harus menggunakan konfigurasi ip address dari keluarga Tybur (dhcp).
+Semua Client harus menggunakan konfigurasi ip address dari keluarga **Tybur (dhcp)**.
 
-Client yang melalui bangsa marley mendapatkan range IP dari [prefix IP].1.05 - [prefix IP].1.25 dan [prefix IP].1.50 - [prefix IP].1.100
+**Client** yang melalui bangsa marley mendapatkan range IP dari [prefix IP].1.05 - [prefix IP].1.25 dan [prefix IP].1.50 - [prefix IP].1.100
 
 - Pada Paradis (DHCP Relay) buat script `nano paradis.sh` untuk dairahkan ke Tybur (DHCP Server)
 
@@ -356,7 +356,7 @@ subnet 10.77.1.0 netmask 255.255.255.0 {
 
 ## SOAL 3
 
-Client yang melalui bangsa eldia mendapatkan range IP dari [prefix IP].2.09 - [prefix IP].2.27 dan [prefix IP].2 .81 - [prefix IP].2.243.
+**Client** yang melalui bangsa eldia mendapatkan range IP dari [prefix IP].2.09 - [prefix IP].2.27 dan [prefix IP].2 .81 - [prefix IP].2.243.
 
 - Kemudian tambahkan setup subnet yang eldia dengan bikin script baru yaitu `nano 3.sh`
 
@@ -384,7 +384,7 @@ subnet 10.77.2.0 netmask 255.255.255.0 {
 
 ## SOAL 4
 
-Client mendapatkan DNS dari keluarga Fritz dan dapat terhubung dengan internet melalui DNS tersebut.
+**Client** mendapatkan DNS dari keluarga Fritz dan dapat terhubung dengan internet melalui DNS tersebut.
 
 - Kemudian buat script baru lagi dengan `nano 4.sh` untuk nambahin `option-domain-name-servers`
 
@@ -435,7 +435,7 @@ echo 'options {
 
 ## SOAL 5
 
-Dikarenakan keluarga Tybur tidak menyukai kaum eldia, maka mereka hanya meminjamkan ip address ke kaum eldia selama 6 menit. Namun untuk kaum marley, keluarga Tybur meminjamkan ip address selama 30 menit. Waktu maksimal dialokasikan untuk peminjaman alamat IP selama 87 menit.
+Dikarenakan keluarga **Tybur** tidak menyukai kaum **eldia**, maka mereka hanya meminjamkan ip address ke kaum **eldia** selama 6 menit. Namun untuk kaum **marley**, keluarga **Tybur** meminjamkan ip address selama 30 menit. Waktu maksimal dialokasikan untuk peminjaman alamat IP selama 87 menit.
 
 - Untuk nambahin limit waktu buat script baru lagi yaitu `nano 5.sh` seperti berikut, tambahkan authoritative; di awal konfigurasi agar DHCP server menjadi sumber otoritatif untuk jaringan tersebut.
 
@@ -478,10 +478,49 @@ subnet 10.77.2.0 netmask 255.255.255.0 {
 service isc-dhcp-server restart
 ```
 
-- Kemudian coba tes telnet ke client `zeke` untuk marley dan `erwin` untuk eldia, hasilnya berikut dan coba ping
+- Lakukan `bash 5.sh` untuk menjalankan Tybur (DHCP Server)
+
+- Kemudian coba tes telnet ke client `zeke` untuk marley dan `erwin` untuk eldia, namun sebelum itu tolong matikan dulu kedua client lalu nyalakan kembali dan hasilnya berikut, coba ping
 
 - Client `Zeke` (ditandai dengan udhcpc saat masuk)
   ![alt text](<img/5 (1).png>)
 
 -Client `Erwin` (ditandai dengan udhcpc saat masuk)
 ![alt text](<img/5 (2).png>)
+
+## SOAL 6
+
+**Armin** berinisiasi untuk memerintahkan setiap worker PHP untuk melakukan konfigurasi virtual host untuk website berikut https://intip.in/BangsaEldia dengan menggunakan php 7.3
+
+## SOAL 7
+
+Dikarenakan Armin sudah mendapatkan kekuatan titan colossal, maka bantulah kaum **eldia** menggunakan **colossal** agar dapat bekerja sama dengan baik. Kemudian lakukan testing dengan 6000 request dan 200 request/second.
+
+## SOAL 8
+
+Karena Erwin meminta “laporan kerja Armin”, maka dari itu buatlah analisis hasil testing dengan 1000 request dan 75 request/second untuk masing-masing algoritma Load Balancer dengan ketentuan sebagai berikut:
+
+- Nama Algoritma Load Balancer
+- Report hasil testing pada Apache Benchmark
+- Grafik request per second untuk masing masing algoritma.
+- Analisis
+
+## SOAL 9
+
+Dengan menggunakan algoritma Least-Connection, lakukan testing dengan menggunakan 3 worker, 2 worker, dan 1 worker sebanyak 1000 request dengan 10 request/second, kemudian tambahkan grafiknya pada “laporan kerja Armin”.
+
+## SOAL 10
+
+Selanjutnya coba tambahkan keamanan dengan konfigurasi autentikasi di **Colossal** dengan dengan kombinasi username: “arminannie” dan password: “jrkmyyy”, dengan yyy merupakan kode kelompok. Terakhir simpan file “htpasswd” nya di /etc/nginx/supersecret/
+
+## SOAL 11
+
+Lalu buat untuk setiap request yang mengandung /titan akan di proxy passing menuju halaman https://attackontitan.fandom.com/wiki/Attack_on_Titan_Wiki
+
+**hint: (proxy_pass)**
+
+## SOAL 12
+
+Selanjutnya **Colossal** ini hanya boleh diakses oleh client dengan IP [Prefix IP].1.77, [Prefix IP].1.88, [Prefix IP].2.144, dan [Prefix IP].2.156.
+
+**hint: (fixed in dulu clientnya)**
