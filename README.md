@@ -11,7 +11,7 @@
 
 ![Topologi](img/Topologi.png)
 
-## SOAL 1 (Config)
+## SOAL 0 (Config)
 
 ### Paradis (DHCP Relay)
 
@@ -242,11 +242,11 @@ service mysql start
 
 - Armin, Eren, Mikasa (PHP Worker)
 
-## SOAL 0
+## SOAL 1
 
 Pulau Paradis telah menjadi tempat yang damai selama 1000 tahun, namun kedamaian tersebut tidak bertahan selamanya. Perang antara kaum Marley dan Eldia telah mencapai puncak. Kaum Marley yang dipimpin oleh Zeke, me-register domain name marley.yyy.com untuk worker Laravel mengarah pada Annie. Namun ternyata tidak hanya kaum Marley saja yang berinisiasi, kaum Eldia ternyata sudah mendaftarkan domain name eldia.yyy.com untuk worker PHP (0) mengarah pada Armin.
 
-- Buat script pada DNS Server Fritz dengan nama `fritz.sh`
+- Buat script pada DNS Server Fritz dengan nama `1.sh`
 
 ```
 echo 'zone "marley.it27.com" {
@@ -318,14 +318,170 @@ Semua Client harus menggunakan konfigurasi ip address dari keluarga Tybur (dhcp)
 
 Client yang melalui bangsa marley mendapatkan range IP dari [prefix IP].1.05 - [prefix IP].1.25 dan [prefix IP].1.50 - [prefix IP].1.100
 
+- Pada Paradis (DHCP Relay) buat script `nano paradis.sh` untuk dairahkan ke Tybur (DHCP Server)
+
+```
+apt-get update
+apt-get install isc-dhcp-relay -y
+service isc-dhcp-relay start
+
+relay="SERVERS=\"10.77.4.2\"
+INTERFACES=\"eth1 eth2 eth3 eth4\"
+OPTIONS=\"\"
+"
+echo "$relay" > /etc/default/isc-dhcp-relay
+
+echo net.ipv4.ip_forward=1 > /etc/sysctl.conf
+
+service isc-dhcp-relay restart
+```
+
+- Setelah di run script diatas dengan `bash paradis.sh` lalu pindah ke Tybur (DHCP Server) dan buat script `nano 2.sh` untuk setup subnet yang marley dahulu
+
+```
+echo 'subnet 10.77.3.0 netmask 255.255.255.0 {
+    option routers 10.77.3.0;
+}
+
+subnet 10.77.4.0 netmask 255.255.255.0 {
+    option routers 10.77.4.0;
+}
+
+subnet 10.77.1.0 netmask 255.255.255.0 {
+    range 10.77.1.5 10.77.1.25;
+    range 10.77.1.50 10.77.1.100;
+    option routers 10.77.1.1;
+}' > /etc/dhcp/dhcpd.conf
+```
+
 ## SOAL 3
 
 Client yang melalui bangsa eldia mendapatkan range IP dari [prefix IP].2.09 - [prefix IP].2.27 dan [prefix IP].2 .81 - [prefix IP].2.243.
+
+- Kemudian tambahkan setup subnet yang eldia dengan bikin script baru yaitu `nano 3.sh`
+
+```
+echo 'subnet 10.77.3.0 netmask 255.255.255.0 {
+    option routers 10.77.3.0;
+}
+
+subnet 10.77.4.0 netmask 255.255.255.0 {
+    option routers 10.77.4.0;
+}
+
+subnet 10.77.1.0 netmask 255.255.255.0 {
+    range 10.77.1.5 10.77.1.25;
+    range 10.77.1.50 10.77.1.100;
+    option routers 10.77.1.1;
+}
+
+subnet 10.77.2.0 netmask 255.255.255.0 {
+    range 10.77.2.09 10.77.2.27;
+    range 10.77.2.81 10.77.2.243;
+    option routers 10.77.2.1;
+} ' > /etc/dhcp/dhcpd.conf
+```
 
 ## SOAL 4
 
 Client mendapatkan DNS dari keluarga Fritz dan dapat terhubung dengan internet melalui DNS tersebut.
 
+- Kemudian buat script baru lagi dengan `nano 4.sh` untuk nambahin `option-domain-name-servers`
+
+```
+echo 'subnet 10.77.3.0 netmask 255.255.255.0 {
+    option routers 10.77.3.0;
+    option broadcast-address 10.77.3.255;
+}
+
+subnet 10.77.4.0 netmask 255.255.255.0 {
+    option routers 10.77.4.0;
+    option broadcast-address 10.77.4.255;
+}
+
+subnet 10.77.1.0 netmask 255.255.255.0 {
+    range 10.77.1.5 10.77.1.25;
+    range 10.77.1.50 10.77.1.100;
+    option routers 10.77.1.1;
+    option broadcast-address 10.77.1.255;
+    option domain-name-servers 10.77.4.1;
+}
+
+subnet 10.77.2.0 netmask 255.255.255.0 {
+    range 10.77.2.9 10.77.2.27;
+    range 10.77.2.81 10.77.2.243;
+    option routers 10.77.2.1;
+    option broadcast-address 10.77.2.255;
+    option domain-name-servers 10.77.4.1;
+} ' > /etc/dhcp/dhcpd.conf
+```
+
+- Jangan lupa untuk setup di Fritz (DNS Server) pake `nano fritz.sh`
+
+```
+echo 'options {
+        directory "/var/cache/bind";
+
+        forwarders {
+                192.168.122.1;
+        };
+
+        // dnssec-validation auto;
+        allow-query{any;};
+        auth-nxdomain no;    # conform to RFC1035
+        listen-on-v6 { any; };
+}; ' >/etc/bind/named.conf.options
+```
+
 ## SOAL 5
 
 Dikarenakan keluarga Tybur tidak menyukai kaum eldia, maka mereka hanya meminjamkan ip address ke kaum eldia selama 6 menit. Namun untuk kaum marley, keluarga Tybur meminjamkan ip address selama 30 menit. Waktu maksimal dialokasikan untuk peminjaman alamat IP selama 87 menit.
+
+- Untuk nambahin limit waktu buat script baru lagi yaitu `nano 5.sh` seperti berikut, tambahkan authoritative; di awal konfigurasi agar DHCP server menjadi sumber otoritatif untuk jaringan tersebut.
+
+```
+
+echo INTERFACESv4="eth0" > /etc/default/isc-dhcp-server
+
+echo 'authoritative;
+
+subnet 10.77.3.0 netmask 255.255.255.0 {
+    option routers 10.77.3.0;
+    option broadcast-address 10.77.3.255;
+}
+
+subnet 10.77.4.0 netmask 255.255.255.0 {
+    option routers 10.77.4.0;
+    option broadcast-address 10.77.4.255;
+}
+
+subnet 10.77.1.0 netmask 255.255.255.0 {
+    range 10.77.1.5 10.77.1.25;
+    range 10.77.1.50 10.77.1.100;
+    option routers 10.77.1.1;
+    option broadcast-address 10.77.1.255;
+    option domain-name-servers 10.77.4.1;
+    default-lease-time 1800;
+    max-lease-time 5220;
+}
+
+subnet 10.77.2.0 netmask 255.255.255.0 {
+    range 10.77.2.9 10.77.2.27;
+    range 10.77.2.81 10.77.2.243;
+    option routers 10.77.2.1;
+    option broadcast-address 10.77.2.255;
+    option domain-name-servers 10.77.4.1;
+    default-lease-time 360;
+    max-lease-time 5220;
+} ' > /etc/dhcp/dhcpd.conf
+
+service isc-dhcp-server restart
+```
+
+- Kemudian coba tes telnet ke client `zeke` untuk marley dan `erwin` untuk eldia, hasilnya berikut dan coba ping
+
+- Client `Zeke` (ditandai dengan udhcpc saat masuk)
+  ![alt text](<img/5 (1).png>)
+
+-Client `Erwin` (ditandai dengan udhcpc saat masuk)
+![alt text](<img/5 (2).png>)
