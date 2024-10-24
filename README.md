@@ -10,43 +10,24 @@
 ## Daftar Isi
 
 - [Soal 1](#Soal-1)
-
 - [Soal 2](#Soal-2)
-
 - [Soal 3](#Soal-3)
-
 - [Soal 4](#Soal-4)
-
 - [Soal 5](#Soal-5)
-
 - [Soal 6](#Soal-6)
-
 - [Soal 7](#Soal-7)
-
 - [Soal 8](#Soal-8)
-
 - [Soal 9](#Soal-9)
-
 - [Soal 10](#Soal-10)
-
 - [Soal 11](#Soal-11)
-
 - [Soal 12](#Soal-12)
-
 - [Soal 13](#Soal-13)
-
 - [Soal 14](#Soal-14)
-
 - [Soal 15](#Soal-15)
-
 - [Soal 16](#Soal-16)
-
 - [Soal 17](#Soal-17)
-
 - [Soal 18](#Soal-18)
-
 - [Soal 19](#Soal-19)
-
 - [Soal 20](#Soal-20)
 
 ## Topologi Kelompok IT27 Praktikum Modul 3
@@ -350,9 +331,9 @@ service bind9 restart
 
 - Kemudian `ping marley.it27.com` pada client `Zeke` dan `ping eldia.it27.com` pada client `Erwin`
 
-![alt text](<img/0 (1).png>)
+![1(0)](<img/0 (1).png>)
 
-![alt text](<img/0 (2).png>)
+![1(1)](<img/0 (2).png>)
 
 ## SOAL 2
 
@@ -525,10 +506,10 @@ service isc-dhcp-server restart
 - Kemudian coba tes telnet ke client `zeke` untuk marley dan `erwin` untuk eldia, namun sebelum itu tolong matikan dulu kedua client lalu nyalakan kembali dan hasilnya berikut, coba ping
 
 - Client `Zeke` (ditandai dengan udhcpc saat masuk)
-  ![alt text](<img/5 (1).png>)
+  ![5(1)](<img/5 (1).png>)
 
--Client `Erwin` (ditandai dengan udhcpc saat masuk)
-![alt text](<img/5 (2).png>)
+- Client `Erwin` (ditandai dengan udhcpc saat masuk)
+  ![5(2)](<img/5 (2).png>)
 
 ## SOAL 6
 
