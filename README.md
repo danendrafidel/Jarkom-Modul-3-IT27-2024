@@ -506,10 +506,16 @@ service isc-dhcp-server restart
 - Kemudian coba tes telnet ke client `zeke` untuk marley dan `erwin` untuk eldia, namun sebelum itu tolong matikan dulu kedua client lalu nyalakan kembali dan hasilnya berikut, coba ping
 
 - Client `Zeke` (ditandai dengan udhcpc saat masuk)
-  ![5(1)](<img/5 (1).png>)
+
+![alt text](<img/5 (1).png>)
+
+![alt text](<img/5 (4).png>)
 
 - Client `Erwin` (ditandai dengan udhcpc saat masuk)
-  ![5(2)](<img/5 (2).png>)
+
+![alt text](<img/5 (5).png>)
+
+![alt text](<img/5 (6).png>)
 
 ## SOAL 6
 
