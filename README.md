@@ -9,26 +9,19 @@
 
 ## Daftar Isi
 
-- [Soal 1](#Soal-1)
-- [Soal 2](#Soal-2)
-- [Soal 3](#Soal-3)
-- [Soal 4](#Soal-4)
-- [Soal 5](#Soal-5)
-- [Soal 6](#Soal-6)
-- [Soal 7](#Soal-7)
-- [Soal 8](#Soal-8)
-- [Soal 9](#Soal-9)
-- [Soal 10](#Soal-10)
-- [Soal 11](#Soal-11)
-- [Soal 12](#Soal-12)
-- [Soal 13](#Soal-13)
-- [Soal 14](#Soal-14)
-- [Soal 15](#Soal-15)
-- [Soal 16](#Soal-16)
-- [Soal 17](#Soal-17)
-- [Soal 18](#Soal-18)
-- [Soal 19](#Soal-19)
-- [Soal 20](#Soal-20)
+- [Soal 1](#soal-1)
+- [Soal 2](#soal-2)
+- [Soal 3](#soal-3)
+- [Soal 4](#soal-4)
+- [Soal 5](#soal-5)
+- [Soal 6](#soal-6)
+- [Soal 7](#soal-7)
+- [Soal 8](#soal-8)
+- [Soal 9](#soal-9)
+- [Soal 10](#soal-10)
+- [Soal 11](#soal-11)
+- [Soal 12](#soal-12)
+- [Soal 13](#soal-13)
 
 ## Topologi Kelompok IT27 Praktikum Modul 3
 
@@ -1021,6 +1014,9 @@ service nginx restart
 ![alt text](<img/10 (1).png>)
 
 ![alt text](<img/10 (2).png>)
+
+![Screenshot 2024-10-27 013347](https://github.com/user-attachments/assets/49fe5a78-e63f-4fbe-956e-5a0f4cab7572)
+
 
 ## SOAL 11
 
