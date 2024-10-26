@@ -631,6 +631,118 @@ service nginx restart
 
 Dikarenakan Armin sudah mendapatkan kekuatan titan colossal, maka bantulah kaum **eldia** menggunakan **colossal** agar dapat bekerja sama dengan baik. Kemudian lakukan testing dengan 6000 request dan 200 request/second.
 
+- Pertama ke Paradis (DHCP Relay) untuk mengatur agar diarahkan ke Colossal (LoadBalancer) dan buat script `nano 7lb.sh` kemudian jalankan `bash 7lb.sh`
+
+```
+echo 'zone "marley.it27.com" {
+        type master;
+        file "/etc/bind/jarkom/marley.it27.com";
+};
+
+zone "eldia.it27.com" {
+        type master;
+        file "/etc/bind/jarkom/eldia.it27.com";
+};' > /etc/bind/named.conf.local
+
+mkdir /etc/bind/jarkom
+
+echo ';
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     marley.it27.com. root.marley.it27.com. (
+                        2024051601      ; Serial
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+;
+@               IN      NS      marley.it27.com.
+@               IN      A       10.77.3.2 ; IP Colossal' > /etc/bind/jarkom/marley.it27.com
+
+echo ';
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     eldia.it27.com.  eldia.it27.com.  (
+                        2024051601      ; Serial
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+;
+@               IN      NS      eldia.it03.com.
+@               IN      A       10.77.3.2 ; IP Colossal' > /etc/bind/jarkom/eldia.it27.com
+
+echo 'options {
+        directory "/var/cache/bind";
+
+        forwarders {
+                192.168.122.1;
+        };
+
+        // dnssec-validation auto;
+        allow-query{any;};
+        auth-nxdomain no;    # conform to RFC1035
+        listen-on-v6 { any; };
+}; ' >/etc/bind/named.conf.options
+
+service bind9 restart
+```
+
+- Setelah itu pindah ke Colossal (LoadBalancer) dan buat script `nano 7.sh` kemudian jalankan `bash 7.sh`
+
+```
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
+
+echo '
+upstream worker {
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+
+server {
+    listen 80;
+    server_name eldia.it27.com www.eldia.it27.com;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        proxy_pass http://worker;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+' > /etc/nginx/sites-available/lb_php
+
+ln -sf /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+
+if [ -f /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default
+fi
+
+service nginx restart
+```
+
+- Setelah itu untuk melakukan pengetesan pada client (Erwin) install terlebih dahulu berikut dan buat scriptnya `nano 7test.sh`
+
+```
+apt update
+apt install lynx -y
+apt install htop -y
+apt install apache2-utils -y
+apt-get install jq -y
+```
+
+- Kemudian pada client (Erwin) `ab -n 6000 -c 200 http://eldia.it27.com/`
+
+![alt text](img/7.png)
+
 ## SOAL 8
 
 Karena Erwin meminta “laporan kerja Armin”, maka dari itu buatlah analisis hasil testing dengan 1000 request dan 75 request/second untuk masing-masing algoritma Load Balancer dengan ketentuan sebagai berikut:
