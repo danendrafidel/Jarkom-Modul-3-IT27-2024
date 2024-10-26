@@ -814,7 +814,7 @@ fi
 service nginx restart
 ```
 
-Jika ingin menggunakan algoritma round-robin uncommand bagian bawah upstream worker. Sedangkan jika ingin menggunakan algortima lainnya bisa disesuaikan. Jadi `bash 8.sh` satu persatu lalu coba di client
+Jika ingin menggunakan algoritma round-robin un-comment bagian bawah upstream worker. Sedangkan jika ingin menggunakan algortima lainnya bisa disesuaikan. Jadi `bash 8.sh` satu persatu lalu coba di client
 
 - Jalankan command berikut untuk dianalisis `ab -n 1000 -c 75 http://eldia.it27.com/` dan `htop
 
@@ -965,11 +965,55 @@ Password: jrkmit27
 - Buat script `nano 10.sh` lalu run `bash 10.sh`
 
 ```
-mkdir /etc/nginx/supersecret
+mkdir -p /etc/nginx/supersecret
+
 htpasswd -c -b /etc/nginx/supersecret/.htpasswd arminannie jrkmit27
+
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
+
+echo '
+upstream worker {
+    least_conn;
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+
+server {
+    listen 80;
+    server_name eldia.it27.com www.eldia.it27.com;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        proxy_pass http://worker;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Basic authentication configuration
+        auth_basic "Restricted Content";
+        auth_basic_user_file /etc/nginx/supersecret/.htpasswd;
+    }
+}
+' > /etc/nginx/sites-available/lb_php
+
+ln -sf /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+
+if [ -f /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default
+fi
+
+service nginx restart
 ```
 
-- Kemudian `lynx http://eldia.it27.com` pada worker PHP `Armin`
+- Kemudian `lynx http://eldia.it27.com` pada klien atau worker masukkan user dan password sesuai diatas
+
+![alt text](<img/10 (1).png>)
+
+![alt text](<img/10 (2).png>)
 
 ## SOAL 11
 
