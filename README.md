@@ -521,6 +521,91 @@ service isc-dhcp-server restart
 
 **Armin** berinisiasi untuk memerintahkan setiap worker PHP untuk melakukan konfigurasi virtual host untuk website berikut https://intip.in/BangsaEldia dengan menggunakan php 7.3
 
+- Buat script `nano 6.sh` untuk menginstall PHP pada `worker PHP Armin` lalu lakukan `bash 6.sh`
+
+```
+#!/bin/bash
+
+# Tambahkan nameserver
+echo nameserver 10.77.2.1 >> /etc/resolv.conf
+
+# Update dan install paket
+apt-get update
+apt-get install nginx -y
+apt-get install lynx -y
+apt-get install php7.3 php7.3-fpm php7.3-mysql -y
+apt-get install wget -y
+apt-get install unzip -y
+apt-get install rsync -y
+
+# Start service Nginx dan PHP-FPM
+service nginx start
+service php7.3-fpm start
+
+# Download file zip modul-3
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1ufulgiWyTbOXQcow11JkXG7safgLq1y-' -O '/var/www/modul-3.zip'
+
+# Extract file zip modul-3
+unzip -o /var/www/modul-3.zip -d /var/www/
+rm /var/www/modul-3.zip
+
+# Copy isi folder modul-3 ke marley.it27.com
+rsync -av /var/www/modul-3/ /var/www/marley.it27.com/
+
+# Hapus folder modul-3
+rm -r /var/www/modul-3
+
+# Konfigurasi Nginx
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/marley.it27.com
+
+# Periksa apakah symbolic link sudah ada, jika iya, hapus
+if [ -L /etc/nginx/sites-enabled/marley.it27.com ]; then
+    rm /etc/nginx/sites-enabled/marley.it27.com
+fi
+
+# Buat symbolic link baru
+ln -s /etc/nginx/sites-available/marley.it27.com /etc/nginx/sites-enabled/
+
+# Hapus konfigurasi default
+if [ -L /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default
+fi
+
+# Konfigurasi Nginx
+echo 'server {
+    listen 80;
+    server_name _;
+
+    root /var/www/marley.it27.com/;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}' > /etc/nginx/sites-available/marley.it27.com
+
+# Restart Nginx dan PHP-FPM 7.3
+service php7.3-fpm restart
+service nginx restart
+```
+
+- Kemudian untuk mengetesnya pindah ke client bebas (Zeke/Erwin) dan install dahulu `apt install lynx` pada client, kemudian test dengan `lynx http://10.77.2.1` dan seperti berikut hasilnya
+
+- Pada Client Zeke
+
+![alt text](<img/6 (1).png>)
+
+- Pada Client Erwin
+
+![alt text](<img/6 (2).png>)
+
 ## SOAL 7
 
 Dikarenakan Armin sudah mendapatkan kekuatan titan colossal, maka bantulah kaum **eldia** menggunakan **colossal** agar dapat bekerja sama dengan baik. Kemudian lakukan testing dengan 6000 request dan 200 request/second.
