@@ -864,7 +864,7 @@ Jika ingin menggunakan algoritma round-robin uncommand bagian bawah upstream wor
 
 ![alt text](<img/IP hash htop.png>)
 
-- Untuk Laporan akan di drop di pdf
+Untuk Laporan akan di drop di pdf
 
 ## SOAL 9
 
@@ -892,6 +892,15 @@ upstream worker {
 ```
 
 - 1 Worker
+
+```
+upstream worker {
+    least_conn;
+    server 10.77.2.3;
+}
+```
+
+- Buat script baru `nano 9.sh` lalu jalankan `bash 9.sh`
 
 ```
 cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
@@ -930,7 +939,27 @@ fi
 service nginx restart
 ```
 
-Lalu un-comment sesuai dengan jumlah worker yang ingin digunakan untuk pengetesan.
+Lalu un-comment sesuai dengan jumlah worker yang ingin digunakan untuk pengetesan memakai `ab -n 1000 -c 10 http://eldia.it27.com/`
+
+- 3 Worker Test
+
+![alt text](img/3worker.png)
+
+![alt text](img/3htop.png)
+
+- 2 Worker Test
+
+![alt text](img/2worker.png)
+
+![alt text](img/2htop.png)
+
+- 1 Worker Test
+
+![alt text](img/1worker.png)
+
+![alt text](img/1htop.png)
+
+Laporan akan diletakkan di PDF juga
 
 ## SOAL 10
 
