@@ -729,7 +729,7 @@ fi
 service nginx restart
 ```
 
-- Setelah itu untuk melakukan pengetesan pada client (Erwin) install terlebih dahulu berikut dan buat scriptnya `nano 7test.sh`
+- Setelah itu untuk melakukan pengetesan pada client (Erwin) install terlebih dahulu berikut dan buat scriptnya `nano 7test.sh` lalu `bash 7test.sh`
 
 ```
 apt update
@@ -747,10 +747,96 @@ apt-get install jq -y
 
 Karena Erwin meminta “laporan kerja Armin”, maka dari itu buatlah analisis hasil testing dengan 1000 request dan 75 request/second untuk masing-masing algoritma Load Balancer dengan ketentuan sebagai berikut:
 
-- Nama Algoritma Load Balancer
-- Report hasil testing pada Apache Benchmark
-- Grafik request per second untuk masing masing algoritma.
-- Analisis
+1. Nama Algoritma Load Balancer
+2. Report hasil testing pada Apache Benchmark
+3. Grafik request per second untuk masing masing algoritma.
+4. Analisis
+
+- Round-robin
+
+```
+upstream worker {
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+```
+
+- Generic Hash
+
+```
+upstream worker {
+    hash $request_uri consistent;
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+```
+
+- Least Connection
+
+```
+upstream worker {
+    least_conn;
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+```
+
+- IP Hash
+
+```
+upstream worker {
+    ip_hash;
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+```
+
+- Diatas merupakan algoritma yang akan kita gunakan selanjutnya buat script pada Colossal (LoadBalancer) `nano 8.sh` kemudian `bash 8.sh`
+
+```
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
+
+echo '
+    upstream worker { #(round-robin(default), least_conn, ip_hash, hash $request_uri consistent)
+#    hash $request_uri consistent;
+#    least_conn;
+#    ip_hash;
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+
+server {
+    listen 80;
+    server_name granz.channel.it03.com www.granz.channel.it03.com;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+        location / {
+
+        proxy_pass http://worker;
+    }
+
+ln -sf /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+
+if [ -f /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default
+fi
+
+service nginx restart
+```
+
+Jika ingin menggunakan algoritma round-robin uncommand bagian bawah upstream worker. Sedangkan jika ingin menggunakan algortima lainnya bisa disesuaikan.
+
+- Jalankan command berikut untuk dianalisis `ab -n 1000 -c 75 http://eldia.it27.com/
 
 ## SOAL 9
 
