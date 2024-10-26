@@ -870,6 +870,68 @@ Jika ingin menggunakan algoritma round-robin uncommand bagian bawah upstream wor
 
 Dengan menggunakan algoritma Least-Connection, lakukan testing dengan menggunakan 3 worker, 2 worker, dan 1 worker sebanyak 1000 request dengan 10 request/second, kemudian tambahkan grafiknya pada “laporan kerja Armin”.
 
+- 3 Worker
+
+```
+upstream worker {
+    least_conn;
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+```
+
+- 2 Worker
+
+```
+upstream worker {
+    least_conn;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+```
+
+- 1 Worker
+
+```
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
+
+echo '
+upstream worker {
+    least_conn;
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+
+server {
+    listen 80;
+    server_name eldia.it27.com www.eldia.it27.com;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        proxy_pass http://worker;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+' > /etc/nginx/sites-available/lb_php
+
+ln -sf /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+
+if [ -f /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default
+fi
+
+service nginx restart
+```
+
+Lalu un-comment sesuai dengan jumlah worker yang ingin digunakan untuk pengetesan.
+
 ## SOAL 10
 
 Selanjutnya coba tambahkan keamanan dengan konfigurasi autentikasi di **Colossal** dengan dengan kombinasi username: “arminannie” dan password: “jrkmyyy”, dengan yyy merupakan kode kelompok. Terakhir simpan file “htpasswd” nya di /etc/nginx/supersecret/
