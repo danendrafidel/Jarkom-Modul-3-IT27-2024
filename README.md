@@ -261,9 +261,30 @@ service mysql start
 
 - Colossal (LoadBalancer PHP)
 
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+apt-get update
+apt-get install apache2-utils php7.3 php-fpm -y
+apt-get install nginx -y
+apt-get install lynx -y
+```
+
 - Annie , Bertholdt, Reiner (Laravel Worker)
 
 - Armin, Eren, Mikasa (PHP Worker)
+
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+apt-get update
+apt-get install nginx -y
+apt-get install lynx -y
+apt-get install php7.3 php7.3-fpm php7.3-mysql -y
+apt-get install wget -y
+apt-get install unzip -y
+apt-get install rsync -y
+```
 
 ## SOAL 1
 
