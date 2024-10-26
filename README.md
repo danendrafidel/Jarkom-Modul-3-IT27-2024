@@ -208,11 +208,12 @@ up echo nameserver 192.168.122.1 >> /etc/resolv.conf
 
 ```
 
-### Erwin (Client)
+### Erwin (Client Tetap)
 
 ```
 auto eth0
 iface  eth0 inet dhcp
+hwaddress ether 5a:e2:87:8f:a3:40
 
 up echo nameserver 10.77.4.1 > /etc/resolv.conf
 up echo nameserver 192.168.122.1 >> /etc/resolv.conf
@@ -223,14 +224,14 @@ up echo nameserver 192.168.122.1 >> /etc/resolv.conf
 
 - Paradis (DHCP Relay)
 
-```
+```sh
 apt-get update
 apt-get install isc-dhcp-relay -y
 ```
 
 - Tybur (DHCP Server)
 
-```
+```sh
 echo nameserver 192.168.122.1 > /etc/resolv.conf
 apt-get update
 apt-get install isc-dhcp-server -y
@@ -241,7 +242,7 @@ echo INTERFACES="eth0" > /etc/default/isc-dhcp-serverm
 
 - Fritz (DNS Server)
 
-```
+```sh
 echo nameserver 192.168.122.1 > /etc/resolv.conf
 apt-get update
 apt-get install bind9 -y
@@ -249,7 +250,7 @@ apt-get install bind9 -y
 
 - Warhammer (Database)
 
-```
+```sh
 echo nameserver 192.168.122.1 > /etc/resolv.conf
 
 apt-get update
@@ -261,7 +262,7 @@ service mysql start
 
 - Colossal (LoadBalancer PHP)
 
-```
+```sh
 echo nameserver 192.168.122.1 > /etc/resolv.conf
 
 apt-get update
@@ -274,16 +275,22 @@ apt-get install lynx -y
 
 - Armin, Eren, Mikasa (PHP Worker)
 
-```
-echo nameserver 192.168.122.1 > /etc/resolv.conf
+```sh
+echo nameserver 10.77.2.1 >> /etc/resolv.conf
 
 apt-get update
 apt-get install nginx -y
 apt-get install lynx -y
-apt-get install php7.3 php7.3-fpm php7.3-mysql -y
+apt-get install php php-fpm -y
 apt-get install wget -y
 apt-get install unzip -y
-apt-get install rsync -y
+service nginx start
+service php7.3-fpm start
+
+wget -O '/var/www/eldia.it27.com' 'https://drive.google.com/uc?export=download&id=1ufulgiWyTbOXQcow11JkXG7safgLq1y-'
+unzip -o /var/www/eldia.it27.com -d /var/www/
+rm /var/www/eldia.it27.com
+mv /var/www/modul-3 /var/www/eldia.it27.com
 ```
 
 ## SOAL 1
@@ -292,7 +299,7 @@ Pulau Paradis telah menjadi tempat yang damai selama 1000 tahun, namun kedamaian
 
 - Buat script pada DNS Server Fritz dengan nama `1.sh`
 
-```
+```sh
 echo 'zone "marley.it27.com" {
         type master;
         file "/etc/bind/jarkom/marley.it27.com";
@@ -364,7 +371,7 @@ Semua Client harus menggunakan konfigurasi ip address dari keluarga **Tybur (dhc
 
 - Pada Paradis (DHCP Relay) buat script `nano paradis.sh` untuk dairahkan ke Tybur (DHCP Server)
 
-```
+```sh
 apt-get update
 apt-get install isc-dhcp-relay -y
 service isc-dhcp-relay start
@@ -382,7 +389,7 @@ service isc-dhcp-relay restart
 
 - Setelah di run script diatas dengan `bash paradis.sh` lalu pindah ke Tybur (DHCP Server) dan buat script `nano 2.sh` untuk setup subnet yang marley dahulu
 
-```
+```sh
 echo 'subnet 10.77.3.0 netmask 255.255.255.0 {
     option routers 10.77.3.0;
 }
@@ -404,7 +411,7 @@ subnet 10.77.1.0 netmask 255.255.255.0 {
 
 - Kemudian tambahkan setup subnet yang eldia dengan bikin script baru yaitu `nano 3.sh`
 
-```
+```sh
 echo 'subnet 10.77.3.0 netmask 255.255.255.0 {
     option routers 10.77.3.0;
 }
@@ -432,7 +439,7 @@ subnet 10.77.2.0 netmask 255.255.255.0 {
 
 - Kemudian buat script baru lagi dengan `nano 4.sh` untuk nambahin `option-domain-name-servers`
 
-```
+```sh
 echo 'subnet 10.77.3.0 netmask 255.255.255.0 {
     option routers 10.77.3.0;
     option broadcast-address 10.77.3.255;
@@ -462,7 +469,7 @@ subnet 10.77.2.0 netmask 255.255.255.0 {
 
 - Jangan lupa untuk setup di Fritz (DNS Server) pake `nano fritz.sh`
 
-```
+```sh
 echo 'options {
         directory "/var/cache/bind";
 
@@ -483,7 +490,7 @@ Dikarenakan keluarga **Tybur** tidak menyukai kaum **eldia**, maka mereka hanya 
 
 - Untuk nambahin limit waktu buat script baru lagi yaitu `nano 5.sh` seperti berikut, tambahkan authoritative; di awal konfigurasi agar DHCP server menjadi sumber otoritatif untuk jaringan tersebut.
 
-```
+```sh
 
 echo INTERFACESv4="eth0" > /etc/default/isc-dhcp-server
 
@@ -544,7 +551,7 @@ service isc-dhcp-server restart
 
 - Buat script `nano 6.sh` untuk menginstall PHP pada `worker PHP Armin` lalu lakukan `bash 6.sh`
 
-```
+```sh
 #!/bin/bash
 
 # Tambahkan nameserver
@@ -609,7 +616,7 @@ Dikarenakan Armin sudah mendapatkan kekuatan titan colossal, maka bantulah kaum 
 
 - Pertama ke Paradis (DHCP Relay) untuk mengatur agar diarahkan ke Colossal (LoadBalancer) dan buat script `nano 7lb.sh` kemudian jalankan `bash 7lb.sh`
 
-```
+```sh
 echo 'zone "marley.it27.com" {
         type master;
         file "/etc/bind/jarkom/marley.it27.com";
@@ -668,7 +675,7 @@ service bind9 restart
 
 - Setelah itu pindah ke Colossal (LoadBalancer) dan buat script `nano 7.sh` kemudian jalankan `bash 7.sh`
 
-```
+```sh
 cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
 
 echo '
@@ -707,7 +714,7 @@ service nginx restart
 
 - Setelah itu untuk melakukan pengetesan pada client (Erwin) install terlebih dahulu berikut dan buat scriptnya `nano 7test.sh` lalu `bash 7test.sh`
 
-```
+```sh
 apt update
 apt install lynx -y
 apt install htop -y
@@ -775,7 +782,7 @@ upstream worker {
 
 - Diatas merupakan algoritma yang akan kita gunakan selanjutnya buat script pada Colossal (LoadBalancer) `nano 8.sh` kemudian `bash 8.sh`
 
-```
+```sh
 cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
 
 echo '
@@ -886,7 +893,7 @@ upstream worker {
 
 - Buat script baru `nano 9.sh` lalu jalankan `bash 9.sh`
 
-```
+```sh
 cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
 
 echo '
@@ -964,7 +971,7 @@ Password: jrkmit27
 
 - Buat script `nano 10.sh` lalu run `bash 10.sh`
 
-```
+```sh
 mkdir -p /etc/nginx/supersecret
 
 htpasswd -c -b /etc/nginx/supersecret/.htpasswd arminannie jrkmit27
@@ -1023,7 +1030,7 @@ Lalu buat untuk setiap request yang mengandung /titan akan di proxy passing menu
 
 - Buat script `nano 11.sh` lalu letakkan di Colossal (LoadBalancer PHP) lalu run `bash 11.sh`
 
-```
+```sh
 echo '
 upstream worker {
     server 10.77.2.1;
@@ -1065,6 +1072,8 @@ fi
 service nginx restart
 ```
 
+- Lakukan pengecekan pada klien dengan `lynx http://eldia.it27.com/titan`
+
 ![alt text](<img/11 (1).png>)
 
 ![alt text](<img/11 (2).png>)
@@ -1074,6 +1083,65 @@ service nginx restart
 Selanjutnya **Colossal** ini hanya boleh diakses oleh client dengan IP [Prefix IP].1.77, [Prefix IP].1.88, [Prefix IP].2.144, dan [Prefix IP].2.156.
 
 **hint: (fixed in dulu clientnya)**
+
+- Masih di Colossal (LoadBalancer PHP) buat script `nano 12.sh` lalu jalankan seperti biasa `bash 12.sh`
+
+```
+echo '
+upstream worker {
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+
+server {
+    listen 80;
+    server_name eldia.it27.com www.eldia.it27.com;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        allow 10.77.1.77;
+        allow 10.77.1.88;
+        allow 10.77.2.144;
+        allow 10.77.2.156;
+        deny all;
+
+        proxy_pass http://worker;
+
+        # Uncomment these lines to enable basic authentication
+        #auth_basic "Restricted Content";
+        #auth_basic_user_file /etc/nginx/supersecret/.htpasswd;
+    }
+
+    location /titan {
+        proxy_pass https://attackontitan.fandom.com/wiki/Titan;
+        proxy_set_header Host attackontitan.fandom.com;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+' > /etc/nginx/sites-available/lb_php
+
+ln -sf /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+
+if [ -f /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default
+fi
+
+service nginx restart
+```
+
+- Untuk client tetap kita pake `Erwin` tambahkan ke Tybur (DHCP Server)
+
+```
+host Erwin {
+    hardware ethernet 5a:e2:87:8f:a3:40;
+    fixed-address 10.77.3.2;
+}
+```
 
 ## SOAL 13
 
