@@ -1047,7 +1047,7 @@ server {
     }
 
     location /titan {
-        proxy_pass http://attackontitan.fandom.com/wiki/Attack_on_Titan_Wiki;
+        proxy_pass https://attackontitan.fandom.com/wiki/Titan;
         proxy_set_header Host attackontitan.fandom.com;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
