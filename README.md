@@ -1167,3 +1167,47 @@ Tambahkan di antara `allow` yang lain
 ## SOAL 13
 
 Karena mengetahui bahwa ada keturunan marley yang mewarisi kekuatan titan, Zeke pun berinisiatif untuk menyimpan data data penting di **Warhammer**, dan semua data tersebut harus dapat diakses oleh anak buah kesayangannya, **Annie**, **Reiner**, dan **Berthold**.
+
+- Pertama buat script `nano 13.sh` pada `Warhammer` sebagai database server dan jalankan `bash 13.sh`
+
+```sh
+mysql -e "CREATE USER 'kelompokit27'@'%' IDENTIFIED BY 'passwordit27';"
+mysql -e "CREATE USER 'kelompokit27'@'marley.it27.com' IDENTIFIED BY 'passwordit27';"
+mysql -e "CREATE DATABASE dbkelompokit27;"
+mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'kelompokit27'@'%';"
+mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'kelompokit27'@'marley.it27.com';"
+mysql -e "FLUSH PRIVILEGES;"
+
+mysql="[mysqld]
+skip-networking=0
+skip-bind-address
+"
+echo "$mysql" > /etc/mysql/my.cnf
+
+service mysql restart
+```
+
+- Kemudian untuk mengecek database tertaut pada `Annie,
+Bertholdt, Reiner` sebagai 3 worker laravel kita perlu install script berikut dengan `nano laravel_lb.sh` pada ke-3 worker laravel tersebut kemudian `bash laravel_lb.sh`
+
+```sh
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+apt-get update
+apt-get install mariadb-client -y
+service mysql start
+```
+
+- Setelah diinstall kemudian test pada `worker laravel` dengan `mariadb --host=10.77.3.3 --port=3306 --user=kelompokit27 --password=passwordit27`
+
+- Annie Testing
+
+![alt text](<img/13 (1).png>)
+
+- Bertholdt Testing
+
+![alt text](<img/13 (2).png>)
+
+- Reiner Testing
+
+![alt text](<img/13 (3).png>)
