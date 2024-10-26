@@ -1021,6 +1021,50 @@ Lalu buat untuk setiap request yang mengandung /titan akan di proxy passing menu
 
 **hint: (proxy_pass)**
 
+- Buat script `nano 11.sh` lalu letakkan di Colossal (LoadBalancer PHP) lalu run `bash 11.sh`
+
+```
+echo '
+upstream worker {
+    server 10.77.2.1;
+    server 10.77.2.2;
+    server 10.77.2.3;
+}
+
+server {
+    listen 80;
+    server_name eldia.it27.com www.eldia.it27.com;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        proxy_pass http://worker;
+
+        # Uncomment these lines to enable basic authentication
+        #auth_basic "Restricted Content";
+        #auth_basic_user_file /etc/nginx/supersecret/.htpasswd;
+    }
+
+    location /titan {
+        proxy_pass http://attackontitan.fandom.com/wiki/Attack_on_Titan_Wiki;
+        proxy_set_header Host attackontitan.fandom.com;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+' > /etc/nginx/sites-available/lb_php
+
+ln -sf /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+
+if [ -f /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default
+fi
+
+service nginx restart
+```
+
 ## SOAL 12
 
 Selanjutnya **Colossal** ini hanya boleh diakses oleh client dengan IP [Prefix IP].1.77, [Prefix IP].1.88, [Prefix IP].2.144, dan [Prefix IP].2.156.
