@@ -253,6 +253,8 @@ service mysql start
 
 - Beast (LoadBalancer Laravel)
 
+  **No script soal tidak ada soal**
+
 - Colossal (LoadBalancer PHP)
 
 ```sh
@@ -265,6 +267,8 @@ apt-get install lynx -y
 ```
 
 - Annie , Bertholdt, Reiner (Laravel Worker)
+
+  **No script soal tidak ada soal**
 
 - Armin, Eren, Mikasa (PHP Worker)
 
