@@ -589,7 +589,7 @@ echo 'server {
  service nginx restart
 ```
 
-- Kemudian untuk mengetesnya pindah ke client bebas (Zeke/Erwin) dan install dahulu `apt install lynx` pada client, kemudian test dengan `lynx http://10.77.2.1` untuk di worker cukup `lynx localhost`berikut hasilnya
+- Kemudian untuk mengetesnya pindah ke client bebas (Zeke/Erwin) dan install dahulu `apt install lynx` pada client, kemudian test dengan `lynx http://eldia.it27.com` untuk di worker cukup `lynx localhost`berikut hasilnya
 
 - Pada Worker
 
