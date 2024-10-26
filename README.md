@@ -812,7 +812,7 @@ echo '
 
 server {
     listen 80;
-    server_name granz.channel.it03.com www.granz.channel.it03.com;
+    server_name eldia.it27.com www.eldia.it27.com;
 
     root /var/www/html;
 
@@ -836,7 +836,7 @@ service nginx restart
 
 Jika ingin menggunakan algoritma round-robin uncommand bagian bawah upstream worker. Sedangkan jika ingin menggunakan algortima lainnya bisa disesuaikan.
 
-- Jalankan command berikut untuk dianalisis `ab -n 1000 -c 75 http://eldia.it27.com/
+- Jalankan command berikut untuk dianalisis `ab -n 1000 -c 75 http://eldia.it27.com/`
 
 ## SOAL 9
 
