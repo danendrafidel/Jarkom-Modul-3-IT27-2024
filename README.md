@@ -549,75 +549,51 @@ service isc-dhcp-server restart
 
 # Tambahkan nameserver
 echo nameserver 10.77.2.1 >> /etc/resolv.conf
-
-# Update dan install paket
 apt-get update
 apt-get install nginx -y
 apt-get install lynx -y
-apt-get install php7.3 php7.3-fpm php7.3-mysql -y
+apt-get install php php-fpm -y
 apt-get install wget -y
 apt-get install unzip -y
-apt-get install rsync -y
-
-# Start service Nginx dan PHP-FPM
 service nginx start
 service php7.3-fpm start
 
-# Download file zip modul-3
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1ufulgiWyTbOXQcow11JkXG7safgLq1y-' -O '/var/www/modul-3.zip'
+wget -O '/var/www/harkonen.it03.com' 'https://drive.google.com/uc?export=download&id=1ufulgiWyTbOXQcow11JkXG7safgLq1y-'
+unzip -o /var/www/harkonen.it03.com -d /var/www/
+rm /var/www/eldia.it27.com
+mv /var/www/modul-3 /var/www/eldia.it27.com
 
-# Extract file zip modul-3
-unzip -o /var/www/modul-3.zip -d /var/www/
-rm /var/www/modul-3.zip
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/eldia.it27.com
+ln -s /etc/nginx/sites-available/eldia.it27.com /etc/nginx/sites-enabled/
+rm /etc/nginx/sites-enabled/default
 
-# Copy isi folder modul-3 ke marley.it27.com
-rsync -av /var/www/modul-3/ /var/www/marley.it27.com/
-
-# Hapus folder modul-3
-rm -r /var/www/modul-3
-
-# Konfigurasi Nginx
-cp /etc/nginx/sites-available/default /etc/nginx/sites-available/marley.it27.com
-
-# Periksa apakah symbolic link sudah ada, jika iya, hapus
-if [ -L /etc/nginx/sites-enabled/marley.it27.com ]; then
-    rm /etc/nginx/sites-enabled/marley.it27.com
-fi
-
-# Buat symbolic link baru
-ln -s /etc/nginx/sites-available/marley.it27.com /etc/nginx/sites-enabled/
-
-# Hapus konfigurasi default
-if [ -L /etc/nginx/sites-enabled/default ]; then
-    rm /etc/nginx/sites-enabled/default
-fi
-
-# Konfigurasi Nginx
 echo 'server {
-    listen 80;
-    server_name _;
+     listen 80;
+     server_name _;
 
-    root /var/www/marley.it27.com/;
-    index index.php index.html index.htm;
+     root /var/www/eldia.it27.com;
+     index index.php index.html index.htm;
 
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
+     location / {
+         try_files $uri $uri/ /index.php?$query_string;
+     }
 
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}' > /etc/nginx/sites-available/marley.it27.com
+     location ~ \.php$ {
+         include snippets/fastcgi-php.conf;
+         fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+         include fastcgi_params;
+     }
+ }' > /etc/nginx/sites-available/eldia.it27.com
 
-# Restart Nginx dan PHP-FPM 7.3
-service php7.3-fpm restart
-service nginx restart
+ service nginx restart
 ```
 
-- Kemudian untuk mengetesnya pindah ke client bebas (Zeke/Erwin) dan install dahulu `apt install lynx` pada client, kemudian test dengan `lynx http://10.77.2.1` dan seperti berikut hasilnya
+- Kemudian untuk mengetesnya pindah ke client bebas (Zeke/Erwin) dan install dahulu `apt install lynx` pada client, kemudian test dengan `lynx http://10.77.2.1` untuk di worker cukup `lynx localhost`berikut hasilnya
+
+- Pada Worker
+
+![alt text](<img/6 (3).png>)
 
 - Pada Client Zeke
 
@@ -752,6 +728,8 @@ Karena Erwin meminta “laporan kerja Armin”, maka dari itu buatlah analisis h
 3. Grafik request per second untuk masing masing algoritma.
 4. Analisis
 
+- Lakukan setup pada `Colossal` (Load Balancer PHP)
+
 - Round-robin
 
 ```
@@ -874,6 +852,8 @@ Untuk Laporan akan di drop di pdf
 
 Dengan menggunakan algoritma Least-Connection, lakukan testing dengan menggunakan 3 worker, 2 worker, dan 1 worker sebanyak 1000 request dengan 10 request/second, kemudian tambahkan grafiknya pada “laporan kerja Armin”.
 
+- Lakukan setup pada `Colossal` (Load Balancer PHP)
+
 - 3 Worker
 
 ```
@@ -972,6 +952,24 @@ Laporan akan diletakkan di PDF juga
 ## SOAL 10
 
 Selanjutnya coba tambahkan keamanan dengan konfigurasi autentikasi di **Colossal** dengan dengan kombinasi username: “arminannie” dan password: “jrkmyyy”, dengan yyy merupakan kode kelompok. Terakhir simpan file “htpasswd” nya di /etc/nginx/supersecret/
+
+- Lakukan setup pada `Colossal` (Load Balancer PHP)
+
+- User dan Passnya
+
+```
+Username: arminannie
+Password: jrkmit27
+```
+
+- Buat script `nano 10.sh` lalu run `bash 10.sh`
+
+```
+mkdir /etc/nginx/supersecret
+htpasswd -c -b /etc/nginx/supersecret/.htpasswd arminannie jrkmit27
+```
+
+- Kemudian `lynx http://eldia.it27.com` pada worker PHP `Armin`
 
 ## SOAL 11
 
