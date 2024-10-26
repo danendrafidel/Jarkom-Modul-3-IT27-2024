@@ -1071,7 +1071,7 @@ fi
 service nginx restart
 ```
 
-- Lakukan pengecekan pada klien dengan `lynx http://eldia.it27.com/titan`
+- Lakukan pengecekan pada klien dengan ` lynx 10.77.3.2/titan`
 
 ![alt text](<img/11 (1).png>)
 
