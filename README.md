@@ -1084,9 +1084,11 @@ Selanjutnya **Colossal** ini hanya boleh diakses oleh client dengan IP [Prefix I
 
 **hint: (fixed in dulu clientnya)**
 
+- Untuk client tetap disini kita pake `Erwin`
+
 - Masih di Colossal (LoadBalancer PHP) buat script `nano 12.sh` lalu jalankan seperti biasa `bash 12.sh`
 
-```
+```sh
 echo '
 upstream worker {
     server 10.77.2.1;
@@ -1134,14 +1136,33 @@ fi
 service nginx restart
 ```
 
-- Untuk client tetap kita pake `Erwin` tambahkan ke Tybur (DHCP Server)
+- Setelah dicoba `lynx http://eldia.it27.com/` di `Erwin` sebagai klien tetap seperti berikut
+
+![alt text](<img/12 (1).png>)
+
+- Untuk bisa `lynx http://eldia.it27.com/` di Erwin dan mengeblock akses `lynx` yang lain kita perlua menambahkan kembali ke script `nano 12.sh` diatas
+
+- Pertama kita cek untuk klien `Erwin` dengan `ip a` dan ditemukan informasi berikut
+
+![alt text](<img/12 (2).png>)
+
+- Tambahkan `hwaddress ether 5a:e2:87:8f:a3:40` ke node `Erwin` dan ip `10.77.2.9` kedalam script `nano 12.sh` dengan memasukkan
 
 ```
-host Erwin {
-    hardware ethernet 5a:e2:87:8f:a3:40;
-    fixed-address 10.77.3.2;
-}
+allow 10.77.2.9;
 ```
+
+Tambahkan di antara `allow` yang lain
+
+- Setelah ditambahkan `bash 12.sh` kembali dan tes di klien `Erwin` dan klien 1nya, seperti berikut
+
+- Pada `Erwin` (Klien Tetap)
+
+![alt text](<img/12 (3).png>)
+
+- Pada `Zeke` (Bukan Klien Tetap)
+
+![alt text](<img/12 (4).png>)
 
 ## SOAL 13
 
