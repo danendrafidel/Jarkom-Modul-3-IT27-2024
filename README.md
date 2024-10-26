@@ -607,7 +607,7 @@ echo 'server {
 
 Dikarenakan Armin sudah mendapatkan kekuatan titan colossal, maka bantulah kaum **eldia** menggunakan **colossal** agar dapat bekerja sama dengan baik. Kemudian lakukan testing dengan 6000 request dan 200 request/second.
 
-- Pertama ke Tybur (DHCP Server) untuk mengatur agar diarahkan ke Colossal (LoadBalancer PHP) dan buat script `nano 7lb.sh` kemudian jalankan `bash 7lb.sh`
+- Pertama ke Fritz (DNS Server) untuk mengatur agar diarahkan ke Colossal (LoadBalancer PHP) dan buat script `nano 7lb.sh` kemudian jalankan `bash 7lb.sh`
 
 ```sh
 echo 'zone "marley.it27.com" {
