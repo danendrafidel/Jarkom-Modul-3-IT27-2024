@@ -607,7 +607,7 @@ echo 'server {
 
 Dikarenakan Armin sudah mendapatkan kekuatan titan colossal, maka bantulah kaum **eldia** menggunakan **colossal** agar dapat bekerja sama dengan baik. Kemudian lakukan testing dengan 6000 request dan 200 request/second.
 
-- Pertama ke Paradis (DHCP Relay) untuk mengatur agar diarahkan ke Colossal (LoadBalancer) dan buat script `nano 7lb.sh` kemudian jalankan `bash 7lb.sh`
+- Pertama ke Tybur (DHCP Server) untuk mengatur agar diarahkan ke Colossal (LoadBalancer PHP) dan buat script `nano 7lb.sh` kemudian jalankan `bash 7lb.sh`
 
 ```sh
 echo 'zone "marley.it27.com" {
@@ -1016,7 +1016,6 @@ service nginx restart
 ![alt text](<img/10 (2).png>)
 
 ![Screenshot 2024-10-27 013347](https://github.com/user-attachments/assets/49fe5a78-e63f-4fbe-956e-5a0f4cab7572)
-
 
 ## SOAL 11
 
