@@ -558,8 +558,8 @@ apt-get install unzip -y
 service nginx start
 service php7.3-fpm start
 
-wget -O '/var/www/harkonen.it03.com' 'https://drive.google.com/uc?export=download&id=1ufulgiWyTbOXQcow11JkXG7safgLq1y-'
-unzip -o /var/www/harkonen.it03.com -d /var/www/
+wget -O '/var/www/eldia.it27.com' 'https://drive.google.com/uc?export=download&id=1ufulgiWyTbOXQcow11JkXG7safgLq1y-'
+unzip -o /var/www/eldia.it27.com -d /var/www/
 rm /var/www/eldia.it27.com
 mv /var/www/modul-3 /var/www/eldia.it27.com
 
@@ -1064,6 +1064,10 @@ fi
 
 service nginx restart
 ```
+
+![alt text](<img/11 (1).png>)
+
+![alt text](<img/11 (2).png>)
 
 ## SOAL 12
 
