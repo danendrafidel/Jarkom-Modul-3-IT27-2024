@@ -1013,7 +1013,7 @@ fi
 service nginx restart
 ```
 
-- Kemudian `lynx http://eldia.it27.com` pada klien atau worker masukkan user dan password sesuai diatas
+- Kemudian ` lynx 10.77.3.2` pada klien atau worker masukkan user dan password sesuai diatas
 
 ![alt text](<img/10 (1).png>)
 
