@@ -801,10 +801,10 @@ upstream worker {
 cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
 
 echo '
-    upstream worker { #(round-robin(default), least_conn, ip_hash, hash $request_uri consistent)
-#    hash $request_uri consistent;
-#    least_conn;
-#    ip_hash;
+upstream worker {
+    # hash $request_uri consistent;
+    # least_conn;
+    # ip_hash;
     server 10.77.2.1;
     server 10.77.2.2;
     server 10.77.2.3;
@@ -815,15 +815,17 @@ server {
     server_name eldia.it27.com www.eldia.it27.com;
 
     root /var/www/html;
-
     index index.html index.htm index.nginx-debian.html;
 
-    server_name _;
-
-        location / {
-
+    location / {
         proxy_pass http://worker;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
+}
+' > /etc/nginx/sites-available/lb_php
 
 ln -sf /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
 
@@ -834,9 +836,35 @@ fi
 service nginx restart
 ```
 
-Jika ingin menggunakan algoritma round-robin uncommand bagian bawah upstream worker. Sedangkan jika ingin menggunakan algortima lainnya bisa disesuaikan.
+Jika ingin menggunakan algoritma round-robin uncommand bagian bawah upstream worker. Sedangkan jika ingin menggunakan algortima lainnya bisa disesuaikan. Jadi `bash 8.sh` satu persatu lalu coba di client
 
-- Jalankan command berikut untuk dianalisis `ab -n 1000 -c 75 http://eldia.it27.com/`
+- Jalankan command berikut untuk dianalisis `ab -n 1000 -c 75 http://eldia.it27.com/` dan `htop
+
+- Round-robin
+
+![alt text](img/Round-robin.png)
+
+![alt text](<img/Round-robin htop.png>)
+
+- Generic hash
+
+![alt text](<img/Generic hash.png>)
+
+![alt text](<img/Generic hash htop.png>)
+
+- Least connection
+
+![alt text](<img/Least connection.png>)
+
+![alt text](<img/Least connection htop.png>)
+
+- IP hash
+
+![alt text](<img/IP hash.png>)
+
+![alt text](<img/IP hash htop.png>)
+
+- Untuk Laporan akan di drop di pdf
 
 ## SOAL 9
 
