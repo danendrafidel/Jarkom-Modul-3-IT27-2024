@@ -771,3 +771,7 @@ Lalu buat untuk setiap request yang mengandung /titan akan di proxy passing menu
 Selanjutnya **Colossal** ini hanya boleh diakses oleh client dengan IP [Prefix IP].1.77, [Prefix IP].1.88, [Prefix IP].2.144, dan [Prefix IP].2.156.
 
 **hint: (fixed in dulu clientnya)**
+
+## SOAL 13
+
+Karena mengetahui bahwa ada keturunan marley yang mewarisi kekuatan titan, Zeke pun berinisiatif untuk menyimpan data data penting di **Warhammer**, dan semua data tersebut harus dapat diakses oleh anak buah kesayangannya, **Annie**, **Reiner**, dan **Berthold**.
