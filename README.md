@@ -864,6 +864,10 @@ Jika ingin menggunakan algoritma round-robin uncommand bagian bawah upstream wor
 
 ![alt text](<img/IP hash htop.png>)
 
+- Grafik Perbandingan Algoritma
+
+![alt text](img/8.png)
+
 Untuk Laporan akan di drop di pdf
 
 ## SOAL 9
@@ -958,6 +962,10 @@ Lalu un-comment sesuai dengan jumlah worker yang ingin digunakan untuk pengetesa
 ![alt text](img/1worker.png)
 
 ![alt text](img/1htop.png)
+
+- Grafik Perbandingan Worker
+
+![alt text](img/9.png)
 
 Laporan akan diletakkan di PDF juga
 
